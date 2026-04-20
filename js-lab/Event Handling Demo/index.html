@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Event Handling Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Event Handling Demo</h1>
+
+    <!-- Output Area -->
+    <div id="output">Events will appear here...</div>
+
+    <!-- Click Event -->
+    <section>
+      <h2>Click Event</h2>
+      <button id="clickBtn">Click Me</button>
+    </section>
+
+    <!-- Input & Change Events -->
+    <section>
+      <h2>Input & Change Events</h2>
+      <input type="text" id="textInput" placeholder="Type something..." />
+      <select id="selectBox">
+        <option value="">-- Select an option --</option>
+        <option value="Option A">Option A</option>
+        <option value="Option B">Option B</option>
+        <option value="Option C">Option C</option>
+      </select>
+    </section>
+
+    <!-- Keyup Event -->
+    <section>
+      <h2>Keyup Event</h2>
+      <input type="text" id="keyupInput" placeholder="Press any key..." />
+    </section>
+
+    <!-- Submit Event -->
+    <section>
+      <h2>Submit Event</h2>
+      <form id="demoForm">
+        <input type="text" id="formInput" placeholder="Enter your name..." required />
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <!-- Mouseover & Mouseout Events -->
+    <section>
+      <h2>Mouseover & Mouseout Events</h2>
+      <div id="hoverBox">Hover over me!</div>
+    </section>
+
+    <!-- Focus & Blur Events -->
+    <section>
+      <h2>Focus & Blur Events</h2>
+      <input type="text" id="focusInput" placeholder="Click to focus..." />
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

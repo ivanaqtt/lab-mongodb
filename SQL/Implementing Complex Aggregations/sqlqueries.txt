@@ -1,0 +1,82 @@
+-- Step 1: Create the database (if not already created)
+-- CREATE DATABASE sales_data;
+-- USE sales_data;
+
+-- Step 2: Create the sales table
+CREATE TABLE sales (
+    sale_id INT PRIMARY KEY,
+    product_id INT,
+    sale_date DATE,
+    quantity INT,
+    unit_price DECIMAL(10, 2),
+    region VARCHAR(50)
+);
+
+-- Step 3: Insert sample data
+INSERT INTO sales (sale_id, product_id, sale_date, quantity, unit_price, region) VALUES
+(1, 101, '2023-01-01', 10, 25.00, 'North'),
+(2, 102, '2023-01-01', 5, 50.00, 'South'),
+(3, 101, '2023-01-02', 15, 25.00, 'North'),
+(4, 103, '2023-01-02', 8, 75.00, 'East'),
+(5, 102, '2023-01-03', 12, 50.00, 'South'),
+(6, 101, '2023-01-03', 20, 25.00, 'North'),
+(7, 104, '2023-01-04', 3, 100.00, 'West'),
+(8, 103, '2023-01-04', 6, 75.00, 'East'),
+(9, 102, '2023-01-05', 10, 50.00, 'South'),
+(10, 101, '2023-01-05', 25, 25.00, 'North'),
+(11, 104, '2023-01-06', 5, 100.00, 'West'),
+(12, 103, '2023-01-06', 7, 75.00, 'East'),
+(13, 102, '2023-01-07', 15, 50.00, 'South'),
+(14, 101, '2023-01-07', 30, 25.00, 'North'),
+(15, 104, '2023-01-08', 4, 100.00, 'West');
+
+-- Verify Data
+SELECT * FROM sales;
+
+-- Step 1: Calculate Basic Aggregations
+SELECT
+    SUM(quantity) AS total_quantity,
+    AVG(unit_price) AS average_unit_price,
+    SUM(quantity * unit_price) AS total_revenue
+FROM sales;
+
+-- Step 2: Group Sales by Region
+SELECT
+    region,
+    SUM(quantity * unit_price) AS total_revenue
+FROM sales
+GROUP BY region;
+
+-- Step 3: Group Sales by Region and Product
+SELECT
+    region,
+    product_id,
+    SUM(quantity * unit_price) AS total_revenue
+FROM sales
+GROUP BY region, product_id
+ORDER BY region, product_id;
+
+-- Step 4: Calculate Running Total of Revenue by Region using Window Functions
+-- Note: Some databases require specific syntax for window functions.
+SELECT
+    sale_date,
+    region,
+    SUM(quantity * unit_price) AS daily_revenue,
+    SUM(SUM(quantity * unit_price)) OVER (PARTITION BY region ORDER BY sale_date) AS running_total_revenue
+FROM sales
+GROUP BY sale_date, region
+ORDER BY region, sale_date;
+
+-- Step 5: Calculate Moving Average of Revenue (3-day window)
+SELECT
+    sale_date,
+    region,
+    SUM(quantity * unit_price) AS daily_revenue,
+    AVG(SUM(quantity * unit_price)) OVER (
+        PARTITION BY region
+        ORDER BY sale_date
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) AS moving_average_revenue
+FROM sales
+GROUP BY sale_date, region
+ORDER BY region, sale_date;
